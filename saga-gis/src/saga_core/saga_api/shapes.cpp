@@ -399,7 +399,10 @@ bool CSG_Shapes::Save(const CSG_String &File_Name, int Format)
 {
 	SG_UI_Msg_Add(CSG_String::Format("%s: %s...", _TL("Save shapes"), File_Name.c_str()), true);
 
-	if( _Save_ESRI(File_Name) )
+    Format	= SG_File_Cmp_Extension(File_Name, "gpkg")? SHAPES_FILE_FORMAT_GPKG:SHAPES_FILE_FORMAT_Esri;
+
+    if( (Format == SHAPES_FILE_FORMAT_Esri && _Save_ESRI(File_Name) ) ||
+            (Format == SHAPES_FILE_FORMAT_GPKG && _Save_OGR(File_Name)))
 	{
 		Set_Modified(false);
 

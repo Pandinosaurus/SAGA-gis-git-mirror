@@ -66,6 +66,9 @@
 
 #include "table_dbase.h"
 
+#include "data_manager.h"
+#include "tool_library.h"
+
 
 ///////////////////////////////////////////////////////////
 //														 //
@@ -706,3 +709,26 @@ bool CSG_Shapes::_Save_ESRI(const CSG_String &File_Name)
 ///////////////////////////////////////////////////////////
 
 //---------------------------------------------------------
+
+bool CSG_Shapes::_Save_OGR(const CSG_String &File_Name)
+{
+    bool bResult = true;
+    CSG_Data_Manager    Data;
+    CSG_Tool    *pTool;
+
+    SG_UI_Msg_Lock(true);
+
+    pTool = SG_Get_Tool_Library_Manager().Get_Tool("io_gdal", 4);
+    if (pTool == NULL)
+        bResult = false;
+
+    if (bResult) {
+        pTool->Set_Parameter("FORMAT", 18);
+        pTool->Set_Parameter("FILE", File_Name);
+        pTool->Set_Parameter("SHAPES", this, PARAMETER_TYPE_Shapes);
+        bResult = pTool->Execute();
+    }
+
+    SG_UI_Msg_Lock(false);
+    return (bResult);
+}

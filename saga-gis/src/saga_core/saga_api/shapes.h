@@ -103,6 +103,15 @@ typedef enum ESG_Shape_Type
 TSG_Shape_Type;
 
 //---------------------------------------------------------
+typedef enum ESG_Shapes_File_Format
+{
+    SHAPES_FILE_FORMAT_Undefined	= 0,
+    SHAPES_FILE_FORMAT_Esri,
+    SHAPES_FILE_FORMAT_GPKG
+}
+TSG_Shapes_File_Format;
+
+//---------------------------------------------------------
 SAGA_API_DLL_EXPORT CSG_String	SG_Get_ShapeType_Name	(TSG_Shape_Type Type);
 
 
@@ -738,6 +747,7 @@ private:
 
 	bool							_Load_ESRI				(const CSG_String &File_Name);
 	bool							_Save_ESRI				(const CSG_String &File_Name);
+    bool							_Save_OGR				(const CSG_String &File_Name);
 
 };
 
